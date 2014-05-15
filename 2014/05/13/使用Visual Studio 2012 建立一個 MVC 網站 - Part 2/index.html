@@ -3,14 +3,15 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: eclipse | Technical Walkthrough</title>
+  <title>使用Visual Studio 2012 建立一個 MVC 網站 - Part 2 | Technical Walkthrough</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta content="website" property="og:type">
-<meta content="Technical Walkthrough" property="og:title">
-<meta content="http://yoursite.com/tags/eclipse/" property="og:url">
-<meta property="og:image">
+  <meta content="article" property="og:type">
+<meta content="使用Visual Studio 2012 建立一個 MVC 網站 - Part 2" property="og:title">
+<meta content="http://yoursite.com/2014/05/13/使用Visual Studio 2012 建立一個 MVC 網站 - Part 2/" property="og:url">
+<meta content="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/newController.png" property="og:image">
 <meta content="Technical Walkthrough" property="og:site_name">
-<meta content="A site that leads you into something you have never played with." property="og:description">
+<meta content="新增ㄧ個 Controller
+首先，我們在 Controller 資料夾上按右鍵，新增ㄧ個 Controller接下來我們要替這個Controller命名，我們可以看到它幫我們自動把Default1選起來，後面自動加上Controller，這是MVC命名的方式，我們只可以改動前面的部份，若連後面都改動，會導致找不到網頁!切記後面的Controller別去做刪除或修改。點下新增後，我們會看到下面" property="og:description">
 <meta content="summary" name="twitter:card">
   
     <link rel="alternative" href="/atom.xml" title="Technical Walkthrough" type="application/atom+xml">
@@ -68,12 +69,10 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-三個步驟，用Eclipse開發視窗程式" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-使用Visual Studio 2012 建立一個 MVC 網站 - Part 2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/05/09/三個步驟，用Eclipse開發視窗程式/" class="article-date">
-  <time datetime="2014-05-09T09:12:42.000Z" itemprop="datePublished">May 9 2014</time>
+    <a href="/2014/05/13/使用Visual Studio 2012 建立一個 MVC 網站 - Part 2/" class="article-date">
+  <time datetime="2014-05-13T08:03:02.000Z" itemprop="datePublished">May 13 2014</time>
 </a>
     
   </div>
@@ -83,8 +82,8 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/05/09/三個步驟，用Eclipse開發視窗程式/">三個步驟，用Eclipse開發視窗程式</a>
+    <h1 class="article-title" itemprop="name">
+      使用Visual Studio 2012 建立一個 MVC 網站 - Part 2
     </h1>
   
 
@@ -93,29 +92,50 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<h2 id="第一步">第一步</h2>
-<p>進入<a href="http://www.eclipse.org/windowbuilder/download.php" target="_blank">Eclipse WindowBuilder 頁面</a>，找到你所使用之Eclipse的版本後在 <strong>link</strong> 上點選右鍵複製鏈結<br/><br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/eclipse_windowbuilder.png" alt="Eclipse WindowBuilder Page"><br><br/></p>
-<h2 id="第二步">第二步</h2>
-<p>打開Eclipse，在選單欄上按<strong>Help</strong> &gt; <strong>Install New Software…</strong><br><br/><br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/help.png" alt="enter image description here"><br><br/><br>將剛剛第一步所複製的網誌貼上紅色框框處，並按下<strong>Select All</strong>，按下<strong>Finish</strong><br><br/><br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/install.png" alt="enter image description here"><br><br/></p>
-<h2 id="第三步">第三步</h2>
-<p>完成後，我們即可開始使用視窗來編輯程式的版型，在專案資料夾上按右鍵 &gt; <strong>New</strong> &gt; <strong>Other..</strong>，找到 <strong>WindowBuilder</strong> &gt; <strong>Swing Designer</strong> &gt; <strong>Application Window</strong><br><br/><br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/create.png" alt="enter image description here"><br><br/><br>接下來我們即可在下面 <em>Source</em>/<em>Design</em> 之間互換。<br>換到 <em>Design</em> 的第一件事情就是要先把 <strong>Layout</strong> 改成 <em>absolute</em>，就可以直接把元件拖上去了!</p>
+<p><strong>新增ㄧ個 Controller</strong></p>
+<p>首先，我們在 Controller 資料夾上按右鍵，新增ㄧ個 Controller<br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/newController.png" alt="Create a new controller"><br><br/><br>接下來我們要替這個Controller命名，我們可以看到它幫我們自動把<em>Default1</em>選起來，後面自動加上Controller，這是MVC命名的方式，我們只可以改動前面的部份，若連後面都改動，會導致找不到網頁!<br/>切記後面的Controller別去做刪除或修改。<br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/newController2.png" alt="Create a new controller"><br><br/><br>點下新增後，我們會看到下面的程式碼:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">class</span> HomeController : Controller
+{
+    <span class="keyword">public</span> ActionResult <span class="title">Index</span>(){
+        <span class="keyword">return</span> View();
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>HomeController 這個 Class 包含了ㄧ個Index()方法，回傳 ActionResults 型別的値，這裡有一點要特別注意的是，Controller 負責告訴 ASP.NET MVC Framework 下ㄧ個要做甚麼(<em>What to do</em>)，而不是下ㄧ個要如何做(<em>How to do</em>)。<br/><br>舉例來說，若ㄧ個 Controller 要顯示ㄧ個 View，這個 Controller 會把ㄧ個 ViewResult 丟給 View，讓 View 去產生給使用者看的頁面，而不是 Controller 去產生給使用者看的頁面。<br><br/><br><strong>新增ㄧ個View</strong><br><br/><br>接下來，我們在<code>Index()</code> 上按右鍵，選到 <em>Add View…</em> 來新增ㄧ個View。<br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/addView.png" alt="Add a view"><br><br/></p>
+<p>完成後，我們可以在Views &gt; Home &gt; Index.cshtml找到我們剛剛加入的View<br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/addView2.png" alt="Add a view"><br><br/><br>我們可以點進去編輯HTML，完成我們的第一頁!</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/05/09/三個步驟，用Eclipse開發視窗程式/" data-id="wf7o6hfanvu21rj4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/05/13/使用Visual Studio 2012 建立一個 MVC 網站 - Part 2/" data-id="rlltkoycnihjgb0c" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windowbuilder/">windowbuilder</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVC/">MVC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Visual Studio/">Visual Studio</a></li></ul>
 
     </footer>
   </div>
   
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2014/05/09/使用Visual Studio 2012 建立一個 MVC 網站/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用Visual Studio 2012 建立一個 MVC 網站 - Part 1</div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
-
-  
-  
 </section>
         
           <aside id="sidebar">
