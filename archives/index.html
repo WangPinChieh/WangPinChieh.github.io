@@ -93,29 +93,16 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p><strong>新增ㄧ個 Controller</strong></p>
-<p>首先，我們在 Controller 資料夾上按右鍵，新增ㄧ個 Controller<br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/newController.png" alt="Create a new controller"><br><br/><br>接下來我們要替這個Controller命名，我們可以看到它幫我們自動把<em>Default1</em>選起來，後面自動加上Controller，這是MVC命名的方式，我們只可以改動前面的部份，若連後面都改動，會導致找不到網頁!<br/>切記後面的Controller別去做刪除或修改。<br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/newController2.png" alt="Create a new controller"><br><br/><br>點下新增後，我們會看到下面的程式碼:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">class</span> HomeController : Controller
-{
-    <span class="keyword">public</span> ActionResult <span class="title">Index</span>(){
-        <span class="keyword">return</span> View();
-    }
-}
-</pre></td></tr></table></figure>
-
-<p>HomeController 這個 Class 包含了ㄧ個Index()方法，回傳 ActionResults 型別的値，這裡有一點要特別注意的是，Controller 負責告訴 ASP.NET MVC Framework 下ㄧ個要做甚麼(<em>What to do</em>)，而不是下ㄧ個要如何做(<em>How to do</em>)。<br/><br>舉例來說，若ㄧ個 Controller 要顯示ㄧ個 View，這個 Controller 會把ㄧ個 ViewResult 丟給 View，讓 View 去產生給使用者看的頁面，而不是 Controller 去產生給使用者看的頁面。<br><br/><br><strong>新增ㄧ個View</strong><br><br/><br>接下來，我們在<code>Index()</code> 上按右鍵，選到 <em>Add View…</em> 來新增ㄧ個View。<br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/addView.png" alt="Add a view"><br><br/></p>
-<p>完成後，我們可以在Views &gt; Home &gt; Index.cshtml找到我們剛剛加入的View<br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/addView2.png" alt="Add a view"><br><br/><br>我們可以點進去編輯HTML，完成我們的第一頁!</p>
-
+<p>
+        
+          <p class="article-more-link">
+            <a href="/2014/05/13/使用Visual Studio 2012 建立一個 MVC 網站 - Part 2/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/05/13/使用Visual Studio 2012 建立一個 MVC 網站 - Part 2/" data-id="rlltkoycnihjgb0c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/05/13/使用Visual Studio 2012 建立一個 MVC 網站 - Part 2/" data-id="2r4ljh82mznt3wpy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVC/">MVC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Visual Studio/">Visual Studio</a></li></ul>
@@ -150,89 +137,16 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/mvc.jpg" alt="MVC"></p>
-<p>MVC (<em>Model</em>-<em>View</em>-<em>Controller</em>) 是一種概念，它把資料(<em>Model</em>)，程式邏輯(<em>Controller</em>)，展示頁面(<em>View</em>) 完全分開來，在這裡的資料我們可以把它想成一個類別(<em>Class</em>)。<br><br/></p>
-<h3 id="The_Model">The Model</h3>
-<hr>
-<p><em>Model</em> 我們可以直接把它認為是ㄧ個類別(<em>Class</em>)，這個 Model 包含了屬性與方法，例如 People 這個類別可以包含姓名、年齡、地址等屬性，也有跑步()、走路()、睡覺() 等方法讓我們呼叫。<br><br/></p>
-<h3 id="The_View">The View</h3>
-<hr>
-<p><em>View</em> 負責將所有的 <em>Model</em> 轉換成HTML給使用者看，當然也可以是PDF或XML的格式。總結來說 <em>View</em> 只需要著重在顯示資料(Displaying data)，是它為一的工作。<br><br/></p>
-<h3 id="The_Controller">The Controller</h3>
-<hr>
-<p><em>Controller</em> 就像是ㄧ個指揮官，指揮著 <em>View</em> 與 <em>Model</em>，當它收到使用者的請求時，<em>Controller</em> 會先將相關的 <em>Model</em> 處理好後，在將結果傳送給 <em>View</em> 去展示。<br><br/></p>
-<h2 id="建立第一個MVC專案">建立第一個MVC專案</h2>
-<hr>
-<p><br/><br>在Visual Studio 2012裡，我們先新增一個MVC專案，選擇ASP.NET MVC 4 Web Application。<br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/mvc1.png" alt="MVC Project Creation"><br><br/><br>接下來，可以看到有很多預設的Templates可以選，每一個的預設功能不一樣，旁邊都有說明，這裡就不贅述了! 中間有一個View Engine可以選擇Razor或ASPX，兩者差異即是標籤語言(Script language)寫法的不同而已，這裡只是做ㄧ個選擇，之後隨時皆可以變換。<br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/mvc2.png" alt="MVC Project Creation"><br><br/><br>按下完成後，我們可以看到VS已經幫我們創建了ㄧ些必要的檔案與資料夾。<br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/mvc3.png" alt="MVC Project Creation"></p>
-<p>除了看到View, Controller, Model 等資料夾以外，要特別介紹在 <em>App_Start</em> 資料夾底下的 <strong>RouteConfig.cs</strong> 這個檔案。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">class</span> RouteConfig
-{
-    routes.IgnoreRoute(<span class="string">"{resource}.axd/{*pathInfo}"</span>);
-    
-    routes.MapRoute(
-        name: <span class="string">"Default"</span>,
-        url: <span class="string">"{controller}/{action}/{id}"</span>,
-        defaults: <span class="keyword">new</span> { controller = <span class="string">"Home"</span>, action = <span class="string">"Index"</span>, id = UrlParameter.Optional }
-    );
-}
-</pre></td></tr></table></figure>
-
-<p>ASP.NET MVC routes 是負責決定要執行哪些 controllers 的重要角色，在routes.MapRoute裡面預設帶了三個屬性，分別為</p>
-<p><em>name</em> : 這個名字必須是唯一的，因為它是用來參考這條唯一的 route</p>
-<p><em>url</em> : 這是ㄧ個 url 模式(Pattern)，這個模式決定我們如何獲取頁面</p>
-<p><em>default</em>: 預設url，我們可以看到裡面帶了另外三個參數，若使用者請求網頁的時候沒有提供參數，我們就會使用預設値，{controller}即會帶入Home，{action}會帶入Index，{id}會隨機產生。</p>
-<p>舉例來說，我們的網址是 <em><a href="http://www.abc.com" target="_blank">http://www.abc.com</a></em> ，若使用者只打了這個網址，網站其實會將它帶入<em><a href="http://www.abc.com/Home/Index" target="_blank">http://www.abc.com/Home/Index</a></em> 這個頁面。下面提供ㄧ些映射表，說明routes如何解析這些輸入的網址。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">URL</th>
-<th style="text-align:left">Controller</th>
-<th style="text-align:left">Action</th>
-<th style="text-align:left">ID</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">/auctions/auction/1234</td>
-<td style="text-align:left">AuctionsController</td>
-<td style="text-align:left">Auction</td>
-<td style="text-align:left">123</td>
-</tr>
-<tr>
-<td style="text-align:left">/auctions/recent</td>
-<td style="text-align:left">AuctionsController</td>
-<td style="text-align:left">Recent</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">/auctions</td>
-<td style="text-align:left">AuctionsController</td>
-<td style="text-align:left">Index</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">/</td>
-<td style="text-align:left">HomeController</td>
-<td style="text-align:left">Index</td>
-</tr>
-</tbody>
-</table>
-<p>在下ㄧ章，我們會說明如何開始建立MVC網頁。</p>
-
+<p>
+        
+          <p class="article-more-link">
+            <a href="/2014/05/09/使用Visual Studio 2012 建立一個 MVC 網站/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/05/09/使用Visual Studio 2012 建立一個 MVC 網站/" data-id="4jigefwzr2b5yfj5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/05/09/使用Visual Studio 2012 建立一個 MVC 網站/" data-id="mhadvcfg0tkgd9ro" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVC/">MVC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Visual Studio/">Visual Studio</a></li></ul>
@@ -267,17 +181,16 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<h2 id="第一步">第一步</h2>
-<p>進入<a href="http://www.eclipse.org/windowbuilder/download.php" target="_blank">Eclipse WindowBuilder 頁面</a>，找到你所使用之Eclipse的版本後在 <strong>link</strong> 上點選右鍵複製鏈結<br/><br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/eclipse_windowbuilder.png" alt="Eclipse WindowBuilder Page"><br><br/></p>
-<h2 id="第二步">第二步</h2>
-<p>打開Eclipse，在選單欄上按<strong>Help</strong> &gt; <strong>Install New Software…</strong><br><br/><br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/help.png" alt="enter image description here"><br><br/><br>將剛剛第一步所複製的網誌貼上紅色框框處，並按下<strong>Select All</strong>，按下<strong>Finish</strong><br><br/><br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/install.png" alt="enter image description here"><br><br/></p>
-<h2 id="第三步">第三步</h2>
-<p>完成後，我們即可開始使用視窗來編輯程式的版型，在專案資料夾上按右鍵 &gt; <strong>New</strong> &gt; <strong>Other..</strong>，找到 <strong>WindowBuilder</strong> &gt; <strong>Swing Designer</strong> &gt; <strong>Application Window</strong><br><br/><br><img src="https://googledrive.com/host/0B4R-ERgmHucCMlA4bDNrOFRsQVU/create.png" alt="enter image description here"><br><br/><br>接下來我們即可在下面 <em>Source</em>/<em>Design</em> 之間互換。<br>換到 <em>Design</em> 的第一件事情就是要先把 <strong>Layout</strong> 改成 <em>absolute</em>，就可以直接把元件拖上去了!</p>
-
+<p>
+        
+          <p class="article-more-link">
+            <a href="/2014/05/09/三個步驟，用Eclipse開發視窗程式/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/05/09/三個步驟，用Eclipse開發視窗程式/" data-id="wf7o6hfanvu21rj4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/05/09/三個步驟，用Eclipse開發視窗程式/" data-id="65k2hj263u0xge8n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windowbuilder/">windowbuilder</a></li></ul>
