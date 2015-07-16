@@ -36,7 +36,7 @@ Process = function(buyPrice, sellPrice, unit, feeRate, taxRate){
 	{
 			for(var i=-1; i<=1; i+=0.05)
 			{
-				var sellPrice = buyPrice + i;	
+				var sellPrice = parseFloat(buyPrice).toFixed(3) + parseFloat(i).toFixed(3);	
 				var sellAmount = sellPrice * 1000 * unit;
 				var temp_SellFee = sellAmount * feeRate;
 				var sellFee = temp_SellFee <= MIN_FEE ? MIN_FEE : temp_SellFee;
