@@ -1,13 +1,72 @@
 <!DOCTYPE>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://wangpinchieh.github.io/functions.js"></script>
 </head>
 <body>
-<input type='button' value='click' onclick=''/>
+<script>
+	$(document).ready(function(){
+		$('#ProcessBtn').click(function(){
+			var BuyPrice = $('#BuyPrice').val();
+			var SellPrice = $('#SellPrice').val();
+			var Unit = $('#Unit').val();
+			var FeeRate = $('#FeeRate').val();
+			var TaxRate = $('#TaxRate').val();
+			
+			var result = Process(BuyPrice, SellPrice, Unit, FeeRate, TaxRate);
+			$('#ResultTable').append('<table data-role="table" class="ui-responsive">');
+			$('#ResultTable').append('<tr><td><strong>賣價</strong></td><td><strong>獲利</strong></td></tr>');
+			for(var i=0; i<result.length; i++)
+			{
+				$('#ResultTable').append('<tr><td>').append(result[i].SellPrice).append('</td><td>').append(result[i].NetProfit).append('</td></tr>');
+			}
+			$('#ResultTable').append('</table>');
+		});
+	});
+</script>
+
+<table data-role="table" class="ui-responsive">
+<tr><td>
+<label for='BuyPrice'>買價：</label>
+</td><td>
+<input type='text' id='BuyPrice' data-clear-btn='true' />
+<td></tr>
+
+<tr><td>
+<label for='SellPrice'>賣價(Optional)：</label>
+</td><td>
+<input type='text' id='SellPrice' data-clear-btn='true' />
+</td></tr>
+
+<tr><td>
+<label for='Unit'>張數：</label>
+</td><td>
+<input type='number' id='Unit' data-clear-btn='true' />
+</td></tr>
+
+<tr><td>
+<label for='FeeRate'>下單手續費率：</label>
+</td><td>
+<input type='text' id='FeeRate' data-clear-btn='true' />
+</td></tr>
+
+<tr><td>
+<label for='TaxRate'>證交稅率：</label>
+</td><td>
+<input type='text' id='TaxRate' value='0.0003' data-clear-btn='true' />
+</td></tr>
+
+<tr><td colspan=2>
+<input type='button' id='ProcessBtn' value='Process'/>
+</td><tr>
+</table>
+<div id='ResultTable'></div>
+
 
 </body>
 </html>
