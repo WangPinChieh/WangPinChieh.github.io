@@ -29,7 +29,7 @@ Process = function(buyPrice, sellPrice, unit, feeRate, taxRate){
 		var sellFee = temp_SellFee <= MIN_FEE ? MIN_FEE : temp_SellFee;
 		var sellTax = sellAmount * taxRate;
 		var netProfit = sellAmount - sellFee - sellTax - purchaseAmount - purchaseFee;
-		result.push({SellPrice:  sellPrice.toFixed(2), NetProfit: netProfit < 0 ? '<div class="GreenText">' + netProfit.toFixed(3) + '</div>' : '<div class="RedText">' + netProfit.toFixed(3) + '</div>' });
+		result.push({SellPrice:  formatNumber(sellPrice), NetProfit: netProfit < 0 ? '<div class="GreenText">' + formatNumber(netProfit) + '</div>' : '<div class="RedText">' + formatNumber(netProfit) + '</div>' });
 		
 	}
 	else
@@ -42,11 +42,25 @@ Process = function(buyPrice, sellPrice, unit, feeRate, taxRate){
 				var sellFee = temp_SellFee <= MIN_FEE ? MIN_FEE : temp_SellFee;
 				var sellTax = sellAmount * taxRate;
 				var netProfit = sellAmount - sellFee - sellTax - purchaseAmount - purchaseFee;
-				result.push({SellPrice:  sellPrice.toFixed(2), NetProfit: netProfit < 0 ? '<div class="GreenText">' + netProfit.toFixed(3) + '</div>' : '<div class="RedText">' + netProfit.toFixed(3) + '</div>' });
+				result.push({SellPrice:  formatNumber(sellPrice), NetProfit: netProfit < 0 ? '<div class="GreenText">' + formatNumber(netProfit) + '</div>' : '<div class="RedText">' + formatNumber(netProfit) + '</div>' });
 			}
 	}
 	
 	return result;
 	
 }
+
+function formatNumber(number)
+{
+    var number = number.toFixed(2) + '';
+    var x = number.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
+
 
