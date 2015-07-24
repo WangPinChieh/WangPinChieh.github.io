@@ -1,0 +1,18 @@
+<!DOCTYPE>
+<html>
+<head>
+<script>
+testCookie = function(){
+	document.cookie = 'test test 123';
+}
+
+getCookie = function(){
+	alert(document.cookie);
+}
+</script>
+</head>
+<body>
+<input type='button' value='setCookie' onclick='testCookie()' />
+<input type='button' value='getCookie' onclick='getCookie()' />
+</body>
+</html>
