@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" /> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
-<script src="functions.js"></script>
+<link rel="stylesheet" href="http://wangpinchieh.github.io/jquery_mobile/jquery.mobile-1.4.5.css" /> 
+<script src="http://wangpinchieh.github.io/jquery_mobile/jquery.mobile-1.4.5.js"></script>
+<script src="http://WangPinChieh.github.io/functions.js"></script>
 <style>
 .GreenText {
 	color: green;
@@ -41,8 +41,9 @@
 		});
 	});
 </script>
-
-<table data-role="table" class="ui-responsive">
+<div data-role="collapsible" data-content-theme="true">
+<h4>股票小幫手</h4>
+<table>
 <tr><td>
 <label for='BuyPrice'>買價：</label>
 </td><td>
@@ -70,20 +71,18 @@
 <tr><td>
 <label for='TaxRate'>證交稅率：</label>
 </td><td>
-<input type='number' id='TaxRate' value='0.003' data-clear-btn='true'  step='any'/>
+<input type='number' id='TaxRate' value='0.003' data-clear-btn='true' step='any'/>
 </td></tr>
 
-<tr><td colspan=2  align='right'>
-<button id='ProcessBtn' class='ui-btn'>Process</button>
+<tr><td colspan='2' align='right'>
+<!--<button id='ProcessBtn' class='ui-btn'>Process</button>-->
+<a href='#ResultTable' id='ProcessBtn' class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-rel="popup" data-position-to="window">試算</a>
 </td></tr>
 </table>
-<div id='ResultTable'></div>
-
-	
-<div data-role="collapsible" data-content-theme="false">
-    <h4>Heading</h4>
-    <p>I'm the collapsible content without a theme.</p>
+<div id='ResultTable' data-role="popup" style="overflow-y: scroll; height:300px;"></div>
 </div>
-
+<div data-role="collapsible" data-content-theme="true">
+<h4>歷史查詢</h4>
+</div>
 </body>
 </html>

@@ -22,7 +22,7 @@ Process = function(buyPrice, sellPrice, unit, feeRate, taxRate){
 	var temp_PurchaseFee = purchaseAmount * feeRate;
 	var purchaseFee = temp_PurchaseFee <= MIN_FEE ? MIN_FEE : temp_PurchaseFee;
 	var result = [];
-	if(!isStrNullorEmpty(sellPrice))
+	if(!isNaN(sellPrice))
 	{
 		var sellAmount = sellPrice * 1000 * unit;
 		var temp_SellFee = sellAmount * feeRate;
