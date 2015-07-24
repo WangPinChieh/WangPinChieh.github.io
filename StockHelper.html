@@ -3,9 +3,10 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" /> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+<script src="functions.js"></script>
 <style>
 .GreenText {
 	color: green;
@@ -14,7 +15,6 @@
 	color: red;
 }
 </style>
-<script src="http://wangpinchieh.github.io/functions.js"></script>
 </head>
 <body>
 <script>
@@ -26,14 +26,17 @@
 			var Unit = $('#Unit').val();
 			var FeeRate = $('#FeeRate').val();
 			var TaxRate = $('#TaxRate').val();
-			
-			var result = Process(BuyPrice, SellPrice, Unit, FeeRate, TaxRate);
+			if(isStrNullorEmpty(BuyPrice) || isStrNullorEmpty(Unit) || isStrNullorEmpty(FeeRate) || isStrNullorEmpty(TaxRate))
+				return;
+			var result = Process(parseFloat(BuyPrice), parseFloat(SellPrice), parseFloat(Unit), parseFloat(FeeRate), parseFloat(TaxRate));
 			$('#ResultTable').append('<table data-role="table" class="ui-responsive">');
-			$('#ResultTable').append('<tr><td style="width: 100;"><strong>賣價</strong></td><td><strong>獲利</strong></td></tr>');
+			$('#ResultTable').append('<thead><tr><td style="width: 100;"><strong>賣價</strong></td><td><strong>獲利</strong></td></tr></thead>');
+			$('#ResultTable').append('<tbody>');
 			for(var i=0; i<result.length; i++)
 			{
 				$('#ResultTable').append('<tr><td>'+result[i].SellPrice+'</td><td>'+result[i].NetProfit+'</td></tr>');
 			}
+			$('#ResultTable').append('</tbody>');
 			$('#ResultTable').append('</table>');
 		});
 	});
@@ -43,13 +46,13 @@
 <tr><td>
 <label for='BuyPrice'>買價：</label>
 </td><td>
-<input type='number' id='BuyPrice' data-clear-btn='true' />
+<input type='number' id='BuyPrice' data-clear-btn='true'  step='any'/>
 <td></tr>
 
 <tr><td>
 <label for='SellPrice'>賣價(Optional)：</label>
 </td><td>
-<input type='number' id='SellPrice' data-clear-btn='true' />
+<input type='number' id='SellPrice' data-clear-btn='true'   step='any'/>
 </td></tr>
 
 <tr><td>
@@ -61,21 +64,26 @@
 <tr><td>
 <label for='FeeRate'>下單手續費率：</label>
 </td><td>
-<input type='number' id='FeeRate' data-clear-btn='true' />
+<input type='number' id='FeeRate' data-clear-btn='true'  step='any'/>
 </td></tr>
 
 <tr><td>
 <label for='TaxRate'>證交稅率：</label>
 </td><td>
-<input type='number' id='TaxRate' value='0.003' data-clear-btn='true' />
+<input type='number' id='TaxRate' value='0.003' data-clear-btn='true'  step='any'/>
 </td></tr>
 
-<tr><td colspan=2>
-<input type='button' id='ProcessBtn' value='Process'/>
-</td><tr>
+<tr><td colspan=2  align='right'>
+<button id='ProcessBtn' class='ui-btn'>Process</button>
+</td></tr>
 </table>
 <div id='ResultTable'></div>
 
+	
+<div data-role="collapsible" data-content-theme="false">
+    <h4>Heading</h4>
+    <p>I'm the collapsible content without a theme.</p>
+</div>
 
 </body>
 </html>
