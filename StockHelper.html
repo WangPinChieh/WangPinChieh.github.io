@@ -6,12 +6,21 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<style>
+.GreenText {
+	color: green;
+}
+.RedText {
+	color: red;
+}
+</style>
 <script src="http://wangpinchieh.github.io/functions.js"></script>
 </head>
 <body>
 <script>
 	$(document).ready(function(){
 		$('#ProcessBtn').click(function(){
+			$('#ResultTable').text('');
 			var BuyPrice = $('#BuyPrice').val();
 			var SellPrice = $('#SellPrice').val();
 			var Unit = $('#Unit').val();
@@ -20,10 +29,10 @@
 			
 			var result = Process(BuyPrice, SellPrice, Unit, FeeRate, TaxRate);
 			$('#ResultTable').append('<table data-role="table" class="ui-responsive">');
-			$('#ResultTable').append('<tr><td><strong>賣價</strong></td><td><strong>獲利</strong></td></tr>');
+			$('#ResultTable').append('<tr><td style="width: 100;"><strong>賣價</strong></td><td><strong>獲利</strong></td></tr>');
 			for(var i=0; i<result.length; i++)
 			{
-				$('#ResultTable').append('<tr><td>').append(result[i].SellPrice).append('</td><td>').append(result[i].NetProfit).append('</td></tr>');
+				$('#ResultTable').append('<tr><td>'+result[i].SellPrice+'</td><td>'+result[i].NetProfit+'</td></tr>');
 			}
 			$('#ResultTable').append('</table>');
 		});

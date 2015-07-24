@@ -29,20 +29,20 @@ Process = function(buyPrice, sellPrice, unit, feeRate, taxRate){
 		var sellFee = temp_SellFee <= MIN_FEE ? MIN_FEE : temp_SellFee;
 		var sellTax = SellAmount * taxRate;
 		var netProfit = sellAmount - sellFee - sellTax - purchaseAmount - purchaseFee;
-		result.push({SellPrice: sellPrice, NetProfit: netProfit});
+		result.push({SellPrice: sellPrice.toFixed(2), NetProfit: netProfit.toFixed(3)});
 		
 	}
 	else
 	{
 			for(var i=-1; i<=1; i+=0.05)
 			{
-				var sellPrice = parseFloat(buyPrice).toFixed(3) + parseFloat(i).toFixed(3);	
+				var sellPrice = parseFloat(buyPrice) + i;	
 				var sellAmount = sellPrice * 1000 * unit;
 				var temp_SellFee = sellAmount * feeRate;
 				var sellFee = temp_SellFee <= MIN_FEE ? MIN_FEE : temp_SellFee;
 				var sellTax = sellAmount * taxRate;
 				var netProfit = sellAmount - sellFee - sellTax - purchaseAmount - purchaseFee;
-				result.push({SellPrice: sellPrice, NetProfit: netProfit});
+				result.push({SellPrice:  sellPrice.toFixed(2), NetProfit: netProfit < 0 ? '<div class="GreenText">' + netProfit.toFixed(3) + '</div>' : '<div class="RedText">' + netProfit.toFixed(3) + '</div>' });
 			}
 	}
 	
