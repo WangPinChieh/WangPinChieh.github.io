@@ -7,7 +7,11 @@
 <link rel="stylesheet" href="http://wangpinchieh.github.io/jquery_mobile/jquery.mobile-1.4.5.css" /> 
 <script src="http://wangpinchieh.github.io/jquery_mobile/jquery.mobile-1.4.5.js"></script>
 <script src="http://WangPinChieh.github.io/functions.js"></script>
+<!--<script src="functions.js"></script>-->
 <style>
+#HistoryRecordsTable td{
+	width: 100;
+}
 .GreenText {
 	color: green;
 }
@@ -19,16 +23,50 @@
 <body>
 <script>
 	$(document).ready(function(){
+		
+		$('#StockHelper').collapsible({
+			expand: function(event, ui){
+				$('#History').collapsible( "collapse" );
+			}
+		});
+		$('#History').collapsible({
+			expand: function(event, ui){
+				$('#StockHelper').collapsible( "collapse" );
+				$('#HistoryRecordsTable').text('');
+				if(typeof(Storage) != undefined)
+				{
+					var _History = localStorage.getItem('history');
+					this.historyRecords = JSON.parse(_History);
+					if(!this.historyRecords)	this.historyRecords = [];
+					$('#HistoryRecordsTable').append('<table data-role="table" class="ui-responsive" cellpadding="10">');
+					$('#HistoryRecordsTable').append('<thead><tr><td><strong>買價</strong></td><td><strong>賣價</strong></td><td><strong>張數</strong></td><td><strong>手續費率</strong></td><td><strong>證交稅</strong></td><td><strong>試算時間</strong></td></tr></thead>');
+					$('#HistoryRecordsTable').append('<tbody>');
+					for(var i=0; i<this.historyRecords.length; i++)
+					{
+						$('#HistoryRecordsTable').append('<tr><td>'+this.historyRecords[i].BuyPrice+'</td><td>'+this.historyRecords[i].SellPrice+'</td>'
+														+'<td>'+this.historyRecords[i].Unit+'</td><td>'+this.historyRecords[i].FeeRate+'</td>'
+														+'<td>'+this.historyRecords[i].TaxRate+'</td><td>'+this.historyRecords[i].QueryTime+'</td></tr>');
+					}
+					$('#HistoryRecordsTable').append('</tbody>');
+					$('#HistoryRecordsTable').append('</table>');
+				}
+			}
+		});
+		$('#ClearHistory').click(function(){
+			localStorage.clear();
+			$('#HistoryRecordsTable').text('');
+		});
 		$('#ProcessBtn').click(function(){
 			$('#ResultTable').text('');
-			var BuyPrice = $('#BuyPrice').val();
-			var SellPrice = $('#SellPrice').val();
-			var Unit = $('#Unit').val();
-			var FeeRate = $('#FeeRate').val();
-			var TaxRate = $('#TaxRate').val();
-			if(isStrNullorEmpty(BuyPrice) || isStrNullorEmpty(Unit) || isStrNullorEmpty(FeeRate) || isStrNullorEmpty(TaxRate))
+			var _BuyPrice = $('#BuyPrice').val();
+			var _SellPrice = $('#SellPrice').val();
+			var _Unit = $('#Unit').val();
+			var _FeeRate = $('#FeeRate').val();
+			var _TaxRate = $('#TaxRate').val();
+			if(isStrNullorEmpty(_BuyPrice) || isStrNullorEmpty(_Unit) || isStrNullorEmpty(_FeeRate) || isStrNullorEmpty(_TaxRate))
 				return;
-			var result = Process(parseFloat(BuyPrice), parseFloat(SellPrice), parseFloat(Unit), parseFloat(FeeRate), parseFloat(TaxRate));
+			
+			var result = Process(parseFloat(_BuyPrice), parseFloat(_SellPrice), parseFloat(_Unit), parseFloat(_FeeRate), parseFloat(_TaxRate));
 			$('#ResultTable').append('<table data-role="table" class="ui-responsive">');
 			$('#ResultTable').append('<thead><tr><td style="width: 100;"><strong>賣價</strong></td><td><strong>獲利</strong></td></tr></thead>');
 			$('#ResultTable').append('<tbody>');
@@ -38,10 +76,25 @@
 			}
 			$('#ResultTable').append('</tbody>');
 			$('#ResultTable').append('</table>');
+			
+			if(typeof(Storage) != undefined)
+			{
+				var _History = localStorage.getItem('history');
+				this.historyRecords = JSON.parse(_History);
+				if(!this.historyRecords)	this.historyRecords = [];
+				else
+				{
+					if(this.historyRecords.length > 5)
+						this.historyRecords.shift();
+				}
+				this.historyRecords.push({BuyPrice: _BuyPrice, SellPrice: _SellPrice, Unit: _Unit, FeeRate: _FeeRate, TaxRate: _TaxRate, QueryTime: new Date().toLocaleFormat('%Y/%m/%d %H:%M:%S')});
+				localStorage.setItem('history', JSON.stringify(this.historyRecords));
+			}
 		});
 	});
 </script>
-<div data-role="collapsible" data-content-theme="true">
+<!--data-role="collapsible"-->
+<div data-content-theme="true" id='StockHelper'>
 <h4>股票小幫手</h4>
 <table>
 <tr><td>
@@ -81,8 +134,11 @@
 </table>
 <div id='ResultTable' data-role="popup" style="overflow-y: scroll; height:300px;"></div>
 </div>
-<div data-role="collapsible" data-content-theme="true">
+<!--data-role="collapsible"-->
+<div data-content-theme="true" id='History'>
 <h4>歷史查詢</h4>
+<button id='ClearHistory'>清除歷史資料</button>
+<div id='HistoryRecordsTable'></div>
 </div>
 </body>
 </html>
