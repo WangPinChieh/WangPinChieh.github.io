@@ -2,6 +2,12 @@
 <html>
     <head>
         <link rel="manifest" href="manifest.webmanifest">
+        <script>
+            if('serviceWorker' in navigator){
+                navigator.serviceWorker.register('/sw.js');
+                console.log('sw registered successfully');
+            }
+        </script>
     </head>
     <body>
         <div>This is my page.</div>
