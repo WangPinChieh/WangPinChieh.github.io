@@ -86,6 +86,10 @@ service cloud.firestore {
 
 Firebase config 不是密碼，放在 GitHub Pages 前端是正常做法；真正的保護要靠 Firebase Auth 和 Firestore Rules。
 
+## 備註快取
+
+管理頁的備註欄位會把輸入過的備註存在目前瀏覽器的 `localStorage`，下次可以直接從欄位建議中選擇。最多保留 40 筆，重複的備註會自動合併並排到前面。
+
 ## 小朋友觀看頁
 
 管理頁是 `index.html`，小朋友只看不編輯的觀看頁是 `kids.html`。

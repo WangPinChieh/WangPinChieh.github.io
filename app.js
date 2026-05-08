@@ -1,4 +1,6 @@
 const STORAGE_KEY = "switch-dashboard-state-v1";
+const NOTE_CACHE_KEY = "switch-dashboard-note-cache-v1";
+const NOTE_CACHE_LIMIT = 40;
 const SESSION_KEY = "switch-dashboard-authenticated";
 const FIREBASE_DEFAULT_SDK_VERSION = "12.13.0";
 
@@ -38,6 +40,7 @@ const adjustForm = document.querySelector("#adjustForm");
 const childSelect = document.querySelector("#childSelect");
 const minutesInput = document.querySelector("#minutesInput");
 const noteInput = document.querySelector("#noteInput");
+const noteSuggestions = document.querySelector("#noteSuggestions");
 const saveStatus = document.querySelector("#saveStatus");
 const syncStatus = document.querySelector("#syncStatus");
 const historyList = document.querySelector("#historyList");
@@ -49,6 +52,7 @@ const importFileInput = document.querySelector("#importFileInput");
 const resetButton = document.querySelector("#resetButton");
 
 let state = loadCachedState();
+let noteCache = loadNoteCache();
 let cloud = null;
 let isCloudMode = false;
 
@@ -101,7 +105,7 @@ function normalizeHistoryItem(item) {
     delta: Math.trunc(Number(item.delta) || 0),
     before: Math.max(0, Math.floor(Number(item.before) || 0)),
     after: Math.max(0, Math.floor(Number(item.after) || 0)),
-    note: String(item.note || "").slice(0, 40),
+    note: normalizeNote(item.note),
     createdAt,
     createdAtMs,
   };
@@ -125,6 +129,70 @@ function normalizeCreatedAt(createdAt, createdAtMs) {
 
 function cacheState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadNoteCache() {
+  try {
+    const raw = localStorage.getItem(NOTE_CACHE_KEY);
+    if (!raw) {
+      return [];
+    }
+
+    return normalizeNoteList(JSON.parse(raw));
+  } catch {
+    return [];
+  }
+}
+
+function saveNoteCache() {
+  localStorage.setItem(NOTE_CACHE_KEY, JSON.stringify(noteCache));
+}
+
+function normalizeNote(value) {
+  return String(value || "").trim().replace(/\s+/g, " ").slice(0, 40);
+}
+
+function normalizeNoteList(values) {
+  if (!Array.isArray(values)) {
+    return [];
+  }
+
+  const seen = new Set();
+  const notes = [];
+
+  for (const value of values) {
+    const note = normalizeNote(value);
+    if (note && !seen.has(note)) {
+      seen.add(note);
+      notes.push(note);
+    }
+  }
+
+  return notes.slice(0, NOTE_CACHE_LIMIT);
+}
+
+function rememberNote(value) {
+  const note = normalizeNote(value);
+  if (!note) {
+    return;
+  }
+
+  noteCache = [note, ...noteCache.filter((item) => item !== note)].slice(0, NOTE_CACHE_LIMIT);
+  saveNoteCache();
+  renderNoteSuggestions();
+}
+
+function syncNoteCacheFromHistory() {
+  const historyNotes = normalizeNoteList(state.history.map((item) => item.note));
+  noteCache = normalizeNoteList([...historyNotes, ...noteCache]);
+  saveNoteCache();
+  renderNoteSuggestions();
+}
+
+function renderNoteSuggestions() {
+  noteSuggestions.innerHTML = noteCache
+    .map((note) => `<option value="${escapeHtml(note)}"></option>`)
+    .join("");
 }
 
 function saveLocalState() {
@@ -235,6 +303,7 @@ function adjustLocalMinutes(childId, rawDelta, note = "") {
   state.minutes[childId] = next;
   state.history.unshift(createHistoryItem(childId, appliedDelta, current, next, note));
 
+  rememberNote(note);
   saveLocalState();
   render();
 }
@@ -270,6 +339,7 @@ async function adjustCloudMinutes(childId, rawDelta, note = "") {
       transaction.set(recordRef, historyToCloudRecord(record));
     });
 
+    rememberNote(note);
     saveStatus.textContent = `雲端已儲存 ${formatTime(new Date())}`;
   } catch (error) {
     if (error.message === "NO_CHANGE") {
@@ -291,7 +361,7 @@ function createHistoryItem(childId, delta, before, after, note = "", id = create
     delta,
     before,
     after,
-    note: note.trim(),
+    note: normalizeNote(note),
     createdAt: new Date(createdAtMs).toISOString(),
     createdAtMs,
   };
@@ -597,6 +667,7 @@ async function startCloudSync() {
         history: snapshot.docs.map((item) => normalizeHistoryItem({ id: item.id, ...item.data() })),
       };
       cacheState();
+      syncNoteCacheFromHistory();
       render();
     },
     (error) => {
@@ -726,6 +797,7 @@ resetButton.addEventListener("click", async () => {
 });
 
 async function init() {
+  syncNoteCacheFromHistory();
   render();
 
   if (isFirebaseConfigured()) {
