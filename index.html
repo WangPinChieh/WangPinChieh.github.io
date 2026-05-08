@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Switch 分鐘管理</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="firebase-config.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="login-view" id="loginView" aria-labelledby="loginTitle">
+        <div class="login-panel">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+          </div>
+          <h1 id="loginTitle">Switch 分鐘管理</h1>
+          <p>登入後記錄豆豆和可可的可玩分鐘數。</p>
+
+          <form id="loginForm" class="login-form">
+            <label for="username">帳號</label>
+            <input id="username" name="username" type="text" autocomplete="username" required />
+
+            <label for="password">密碼</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required />
+
+            <p class="form-error" id="loginError" role="alert"></p>
+
+            <button class="primary-button" type="submit">
+              <i data-lucide="log-in" aria-hidden="true"></i>
+              登入
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section class="dashboard-view hidden" id="dashboardView" aria-labelledby="dashboardTitle">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Switch time</p>
+            <h1 id="dashboardTitle">小朋友分鐘數</h1>
+            <p class="sync-status" id="syncStatus">準備中</p>
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-button" id="exportJsonButton" type="button" title="匯出 JSON" aria-label="匯出 JSON">
+              <i data-lucide="file-json" aria-hidden="true"></i>
+            </button>
+            <button class="icon-button" id="exportCsvButton" type="button" title="匯出 CSV" aria-label="匯出 CSV">
+              <i data-lucide="file-spreadsheet" aria-hidden="true"></i>
+            </button>
+            <button class="icon-button" id="importJsonButton" type="button" title="匯入 JSON" aria-label="匯入 JSON">
+              <i data-lucide="upload" aria-hidden="true"></i>
+            </button>
+            <input class="file-input" id="importFileInput" type="file" accept="application/json,.json" />
+            <button class="icon-button danger" id="resetButton" type="button" title="清空資料" aria-label="清空資料">
+              <i data-lucide="trash-2" aria-hidden="true"></i>
+            </button>
+            <button class="text-button" id="logoutButton" type="button">
+              <i data-lucide="log-out" aria-hidden="true"></i>
+              登出
+            </button>
+          </div>
+        </header>
+
+        <section class="summary-grid" id="summaryGrid" aria-label="分鐘數儀表板"></section>
+
+        <section class="control-section" aria-labelledby="controlTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Adjust</p>
+              <h2 id="controlTitle">調整分鐘數</h2>
+            </div>
+            <p class="save-status" id="saveStatus">已儲存</p>
+          </div>
+
+          <form id="adjustForm" class="adjust-form">
+            <div class="field-group">
+              <label for="childSelect">小朋友</label>
+              <select id="childSelect" name="child" required>
+                <option value="doudou">豆豆</option>
+                <option value="keke">可可</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="minutesInput">分鐘</label>
+              <input id="minutesInput" name="minutes" type="number" min="1" step="1" value="10" required />
+            </div>
+
+            <div class="field-group grow">
+              <label for="noteInput">備註</label>
+              <input id="noteInput" name="note" type="text" maxlength="40" placeholder="例：完成作業、玩了 30 分鐘" />
+            </div>
+
+            <div class="button-pair" role="group" aria-label="調整動作">
+              <button class="primary-button" id="addButton" type="submit" value="add">
+                <i data-lucide="plus" aria-hidden="true"></i>
+                增加
+              </button>
+              <button class="secondary-button" id="subtractButton" type="submit" value="subtract">
+                <i data-lucide="minus" aria-hidden="true"></i>
+                減少
+              </button>
+            </div>
+          </form>
+
+          <div class="quick-actions" aria-label="快速調整">
+            <button type="button" data-quick="5">+5</button>
+            <button type="button" data-quick="10">+10</button>
+            <button type="button" data-quick="15">+15</button>
+            <button type="button" data-quick="30">+30</button>
+            <button type="button" data-quick="-5">-5</button>
+            <button type="button" data-quick="-10">-10</button>
+            <button type="button" data-quick="-15">-15</button>
+            <button type="button" data-quick="-30">-30</button>
+          </div>
+        </section>
+
+        <section class="history-section" aria-labelledby="historyTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">History</p>
+              <h2 id="historyTitle">永久紀錄</h2>
+            </div>
+            <p id="historyCount">0 筆</p>
+          </div>
+
+          <div class="history-list" id="historyList" aria-live="polite"></div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
