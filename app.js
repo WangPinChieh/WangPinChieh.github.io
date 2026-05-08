@@ -1,6 +1,6 @@
 const STORAGE_KEY = "switch-dashboard-state-v1";
 const SESSION_KEY = "switch-dashboard-authenticated";
-const FIREBASE_DEFAULT_SDK_VERSION = "12.7.0";
+const FIREBASE_DEFAULT_SDK_VERSION = "12.13.0";
 
 const LOCAL_CREDENTIALS = {
   username: "parent",

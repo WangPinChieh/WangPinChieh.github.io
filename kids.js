@@ -1,5 +1,5 @@
 const STORAGE_KEY = "switch-dashboard-state-v1";
-const FIREBASE_DEFAULT_SDK_VERSION = "12.7.0";
+const FIREBASE_DEFAULT_SDK_VERSION = "12.13.0";
 
 const CHILDREN = {
   doudou: {
