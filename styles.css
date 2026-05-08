@@ -182,6 +182,10 @@ select:focus {
   border-color: var(--line);
 }
 
+.text-button {
+  text-decoration: none;
+}
+
 .text-button:hover,
 .icon-button:hover,
 .quick-actions button:hover {
@@ -428,6 +432,36 @@ button svg {
   max-height: 420px;
   margin-top: 16px;
   overflow: auto;
+}
+
+.viewer-shell {
+  min-height: 100vh;
+}
+
+.viewer-dashboard {
+  display: grid;
+  min-height: 100vh;
+  align-content: start;
+}
+
+.viewer-summary {
+  align-items: stretch;
+}
+
+.viewer-card {
+  min-height: 300px;
+}
+
+.viewer-card .minute-number {
+  font-size: clamp(4.2rem, 13vw, 7.8rem);
+}
+
+.viewer-card .kid-content h2 {
+  font-size: clamp(2rem, 6vw, 3.4rem);
+}
+
+.viewer-history .history-list {
+  max-height: 330px;
 }
 
 .history-item {

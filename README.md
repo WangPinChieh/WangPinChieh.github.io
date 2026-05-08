@@ -85,3 +85,40 @@ service cloud.firestore {
 右上角提供 JSON 匯出、JSON 匯入和 CSV 匯出。若你之前已經在本機模式記錄資料，可以先匯出 JSON，啟用 Firebase 後登入，再匯入 JSON，上傳成雲端資料。
 
 Firebase config 不是密碼，放在 GitHub Pages 前端是正常做法；真正的保護要靠 Firebase Auth 和 Firestore Rules。
+
+## 小朋友觀看頁
+
+管理頁是 `index.html`，小朋友只看不編輯的觀看頁是 `kids.html`。
+
+部署到 GitHub Pages 後，網址會像這樣：
+
+- 管理頁：`https://你的帳號.github.io/switch-dashboard/`
+- 觀看頁：`https://你的帳號.github.io/switch-dashboard/kids.html`
+
+觀看頁沒有登入、加減、匯入、匯出、重置功能，只會讀取分鐘數與最近紀錄。
+
+如果你要讓觀看頁在未登入狀態下跨裝置讀取 Firebase，Firestore Rules 需要允許公開讀取、只允許家長帳號寫入。把 `PASTE_PARENT_UID` 換成家長帳號的 UID：
+
+```txt
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isParent() {
+      return request.auth != null && request.auth.uid == "PASTE_PARENT_UID";
+    }
+
+    match /switchDashboard/{familyId} {
+      allow read: if true;
+      allow write: if isParent();
+
+      match /history/{recordId} {
+        allow read: if true;
+        allow write: if isParent();
+      }
+    }
+  }
+}
+```
+
+這代表知道網址的人可以看到分鐘數與紀錄，但不能修改。若你希望觀看頁也要輸入密碼才能看，可以改成 Firebase 的第二個 read-only 帳號規則。

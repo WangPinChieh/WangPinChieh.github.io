@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Switch 觀看頁</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="firebase-config.js" defer></script>
+    <script src="kids.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell viewer-shell">
+      <section class="dashboard-view viewer-dashboard" aria-labelledby="viewerTitle">
+        <header class="topbar viewer-topbar">
+          <div>
+            <p class="eyebrow">Switch time</p>
+            <h1 id="viewerTitle">豆豆和可可</h1>
+            <p class="sync-status" id="syncStatus">準備中</p>
+          </div>
+          <div class="topbar-actions">
+            <a class="text-button" href="index.html" title="管理頁">
+              <i data-lucide="lock-keyhole" aria-hidden="true"></i>
+              管理頁
+            </a>
+          </div>
+        </header>
+
+        <section class="summary-grid viewer-summary" id="summaryGrid" aria-label="分鐘數儀表板"></section>
+
+        <section class="history-section viewer-history" aria-labelledby="historyTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Latest</p>
+              <h2 id="historyTitle">最近紀錄</h2>
+            </div>
+            <p id="historyCount">0 筆</p>
+          </div>
+
+          <div class="history-list" id="historyList" aria-live="polite"></div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
