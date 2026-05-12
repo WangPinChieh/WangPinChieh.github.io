@@ -272,42 +272,16 @@ button svg {
 
 .kid-card {
   display: grid;
-  grid-template-columns: 160px 1fr;
   min-height: 220px;
   overflow: hidden;
-}
-
-.kid-visual {
-  display: grid;
-  place-items: center;
-  background: var(--card-accent);
-}
-
-.minute-ring {
-  display: grid;
-  width: 118px;
-  height: 118px;
-  place-items: center;
-  border-radius: 50%;
-  background: conic-gradient(#fff var(--ring-value), rgba(255, 255, 255, 0.25) 0);
-}
-
-.minute-ring-inner {
-  display: grid;
-  width: 86px;
-  height: 86px;
-  place-items: center;
-  border-radius: 50%;
-  color: #fff;
-  background: rgba(23, 32, 38, 0.22);
-  font-size: 2rem;
-  font-weight: 900;
+  border-top: 8px solid var(--card-accent);
 }
 
 .kid-content {
   display: grid;
   gap: 12px;
   padding: 22px;
+  align-content: center;
 }
 
 .kid-content h2 {
@@ -571,10 +545,6 @@ button svg {
 
   .kid-card {
     grid-template-columns: 1fr;
-  }
-
-  .kid-visual {
-    min-height: 150px;
   }
 
   .history-item {

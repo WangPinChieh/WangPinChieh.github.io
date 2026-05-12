@@ -226,21 +226,13 @@ function render() {
 }
 
 function renderCards() {
-  const maxMinutes = Math.max(60, state.minutes.doudou, state.minutes.keke);
-
   summaryGrid.innerHTML = Object.entries(CHILDREN)
     .map(([id, child]) => {
       const minutes = state.minutes[id];
-      const ringValue = Math.min(100, Math.round((minutes / maxMinutes) * 100));
       const lastAction = state.history.find((item) => item.childId === id);
 
       return `
-        <article class="kid-card" style="--card-accent: ${child.accent}; --ring-value: ${ringValue}%;">
-          <div class="kid-visual" aria-hidden="true">
-            <div class="minute-ring">
-              <div class="minute-ring-inner">${ringValue}%</div>
-            </div>
-          </div>
+        <article class="kid-card" style="--card-accent: ${child.accent};">
           <div class="kid-content">
             <h2>${child.name}</h2>
             <div class="minute-number">${minutes}<span>分鐘</span></div>
