@@ -270,11 +270,20 @@ function renderHistory() {
       const note = item.note ? escapeHtml(item.note) : "未填備註";
 
       return `
-        <article class="history-item">
+        <article class="history-item history-item-editable">
           <div class="history-child">${child.name}</div>
           <div class="history-delta ${deltaClass}">${formatSigned(item.delta)} 分鐘</div>
           <div class="history-note">${note}</div>
           <time class="history-time" datetime="${item.createdAt}">${formatDateTime(item.createdAt)}</time>
+          <button
+            class="history-delete-button"
+            type="button"
+            data-history-delete="${escapeHtml(item.id)}"
+            title="刪除此筆紀錄"
+            aria-label="刪除 ${child.name} ${formatSigned(item.delta)} 分鐘紀錄"
+          >
+            <i data-lucide="trash-2" aria-hidden="true"></i>
+          </button>
         </article>
       `;
     })
@@ -350,6 +359,96 @@ async function adjustCloudMinutes(childId, rawDelta, note = "") {
     saveStatus.textContent = "雲端儲存失敗，請稍後再試";
     console.error(error);
   }
+}
+
+async function confirmAndDeleteHistoryItem(itemId) {
+  const item = state.history.find((historyItem) => historyItem.id === itemId);
+  if (!item) {
+    saveStatus.textContent = "找不到這筆紀錄";
+    return;
+  }
+
+  const child = CHILDREN[item.childId];
+  const currentMinutes = state.minutes[item.childId];
+  const nextMinutes = calculateMinutesAfterHistoryDelete(item, state.minutes);
+  const confirmed = window.confirm(
+    `確定要刪除這筆紀錄嗎？\n\n${child.name} ${formatSigned(item.delta)} 分鐘\n刪除後總分鐘數會從 ${currentMinutes} 變成 ${nextMinutes}。`
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  await deleteHistoryItem(itemId);
+}
+
+async function deleteHistoryItem(itemId) {
+  if (isCloudMode && cloud?.user) {
+    await deleteCloudHistoryItem(itemId);
+    return;
+  }
+
+  deleteLocalHistoryItem(itemId);
+}
+
+function deleteLocalHistoryItem(itemId) {
+  const item = state.history.find((historyItem) => historyItem.id === itemId);
+  if (!item) {
+    saveStatus.textContent = "找不到這筆紀錄";
+    return;
+  }
+
+  state.minutes[item.childId] = calculateMinutesAfterHistoryDelete(item, state.minutes);
+  state.history = state.history.filter((historyItem) => historyItem.id !== itemId);
+
+  saveLocalState();
+  render();
+}
+
+async function deleteCloudHistoryItem(itemId) {
+  try {
+    await cloud.runTransaction(cloud.db, async (transaction) => {
+      const recordRef = cloud.doc(cloud.historyCollection, itemId);
+      const stateSnapshot = await transaction.get(cloud.stateDoc);
+      const recordSnapshot = await transaction.get(recordRef);
+
+      if (!recordSnapshot.exists()) {
+        throw new Error("MISSING_RECORD");
+      }
+
+      const item = normalizeHistoryItem({ id: recordSnapshot.id, ...recordSnapshot.data() });
+      const minutes = normalizeMinutes(stateSnapshot.data()?.minutes);
+
+      transaction.set(
+        cloud.stateDoc,
+        {
+          minutes: {
+            ...minutes,
+            [item.childId]: calculateMinutesAfterHistoryDelete(item, minutes),
+          },
+          updatedAt: cloud.serverTimestamp(),
+        },
+        { merge: true }
+      );
+
+      transaction.delete(recordRef);
+    });
+
+    saveStatus.textContent = `雲端已刪除 ${formatTime(new Date())}`;
+  } catch (error) {
+    if (error.message === "MISSING_RECORD") {
+      saveStatus.textContent = "這筆紀錄已不存在";
+      return;
+    }
+
+    saveStatus.textContent = "雲端刪除失敗，請稍後再試";
+    console.error(error);
+  }
+}
+
+function calculateMinutesAfterHistoryDelete(item, minutes) {
+  const current = Math.max(0, Math.floor(Number(minutes[item.childId]) || 0));
+  return Math.max(0, current - item.delta);
 }
 
 function createHistoryItem(childId, delta, before, after, note = "", id = createId()) {
@@ -768,8 +867,20 @@ adjustForm.addEventListener("submit", async (event) => {
 document.querySelectorAll("[data-quick]").forEach((button) => {
   button.addEventListener("click", async () => {
     const delta = Number(button.dataset.quick);
-    await adjustMinutes(childSelect.value, delta, "快速調整");
+    const note = normalizeNote(noteInput.value) || "快速調整";
+
+    await adjustMinutes(childSelect.value, delta, note);
+    noteInput.value = "";
   });
+});
+
+historyList.addEventListener("click", async (event) => {
+  const deleteButton = event.target.closest?.("[data-history-delete]");
+  if (!deleteButton) {
+    return;
+  }
+
+  await confirmAndDeleteHistoryItem(deleteButton.dataset.historyDelete);
 });
 
 exportJsonButton.addEventListener("click", exportJson);
